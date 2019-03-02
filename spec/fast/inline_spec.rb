@@ -4,9 +4,17 @@ RSpec.describe Fast::Inline do
   end
 
   describe ".local_variable" do
-    subject { described_class.local_variable("a = 1;a + 1") }
-    it "inline local variable with the current expression" do
-      is_expected.to eq(";1 + 1")
+    context "simple expression" do
+      subject { described_class.local_variable("a = 1;a + 1") }
+      it "inline local variable with the current expression" do
+        is_expected.to eq(";1 + 1")
+      end
+    end
+    context "complex expression" do
+      subject { described_class.local_variable("a = 1;a + a") }
+      it "inline local variable references with the current expression" do
+        is_expected.to eq(";1 + 1")
+      end
     end
   end
 end
