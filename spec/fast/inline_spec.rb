@@ -25,4 +25,21 @@ RSpec.describe Fast::Inline do
       end
     end
   end
+
+  describe ".method_def" do
+    context "without arguments" do
+      subject { described_class.method_def("def one; 1 end; one") }
+      it "inline method definition with the current method call" do
+        is_expected.to eq("; 1")
+      end
+    end
+=begin
+    context "arguments in method" do
+      subject { described_class.method_def("def plus_one number; number + 1 end; plus_one(1)") }
+      it "inline multiple local variable references with the current expression" do
+        is_expected.to eq(";;1 + 1")
+      end
+    end
+=end
+  end
 end
