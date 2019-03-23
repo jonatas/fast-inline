@@ -1,8 +1,54 @@
 # Fast::Inline
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fast/inline`. To experiment with that code, run `bin/console` for an interactive prompt.
+The objective of this gem is inline ruby expressions.
 
-TODO: Delete this and the text above, and describe your gem
+Examples:
+
+## Inline local variable
+
+```ruby
+a = 1
+b = 2
+a + b
+```
+
+Will be transformed into:
+
+```ruby
+1 + 2
+```
+
+## Method definition
+
+```ruby
+def one
+ 1
+end
+one + 1
+```
+
+Will be refactored to:
+
+```ruby
+1 + 1
+```
+
+### Method definition with arguments
+
+Will be refactored to:
+
+```ruby
+def plus_one(arg)
+ arg + 1
+end
+2 + plus_one(3)
+```
+
+Will be refactored to:
+
+```ruby
+2 + 3 + 4
+```
 
 ## Installation
 
@@ -22,7 +68,34 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+For local variable:
+
+```ruby
+Fast::Inline.local_variable('a = 1;a + 1') 
+# => ';1 + 1'
+```
+
+For method definition:
+
+```ruby
+Fast::Inline.method_def('def plus_one number; number + 1 end; plus_one(1)')
+# => '; 1 + 1'
+```
+
+## TODO
+
+- [ ] Preserve variable scope
+- [ ] Pipe and combine multiple refactoring strategies
+- [ ] Work with class and initiatize methods
+- [ ] Work with multiple files
+- [ ] Friendly CLI to make it a tool
+
+## Videos
+
+While developing this tool I created a series of videos since the begining.
+
+Here is the [playlist](https://www.youtube.com/playlist?list=PLMi5gHdF3kjSxZ6FrAS81EwWzroxiEwsC) and
+the intro is [here](https://www.youtube.com/watch?v=KQXglNLUv7o).
 
 ## Development
 
